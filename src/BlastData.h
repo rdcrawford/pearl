@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <filesystem>
 
 // -----------------------------------------------------------------------------
 // BlastData
@@ -26,7 +27,7 @@ public:
 
   // Ctor: take the parsed genome data, and an output directory to write
   // files. Additionally, the minimum identity and minimium length for
-  // alignments are input. 
+  // alignments are input.
   BlastData( const GenomeData &genomeData, const std::string &outDir,
     const double &minIdent, const unsigned int minLen );
 

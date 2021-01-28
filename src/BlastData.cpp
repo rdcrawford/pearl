@@ -1,4 +1,5 @@
 #include "BlastData.h"
+namespace fs = std::filesystem;
 
 // -----------------------------------------------------------------------------
 // Blast Data
@@ -27,10 +28,27 @@ BlastData::BlastData(
   // Get the number of genomes in this dataset
   unsigned int nGenomes = genomeData.getNumGenomes();
 
+  // Make the paths to the blast databases and to the directory to store the
+  // reslts
+  std::string dbDir  = outDir + "blast_dbs/";
+  std::string tsvDir = outDir + "blast_results/";
+
+  if ( !fs::exists( dbDir ) )
+  {
+    auto cmd = "mkdir " + dbDir;
+    system( cmd.c_str() );
+  }
+
+  if ( !fs::exists( tsvDir ) )
+  {
+    auto cmd = "mkdir " + tsvDir;
+    system( cmd.c_str() );
+  }
+
   // Make blast databases
   std::vector< std::string > blastDbs( nGenomes );
   for ( unsigned int i = 1; i < nGenomes; i++ )
-    blastDbs[i] = madeBlastDb( genomeData.getGenomeRefAtIdx( i ), outDir );
+    blastDbs[i] = madeBlastDb( genomeData.getGenomeRefAtIdx( i ), dbDir );
 
   // Blast each pair of genomes.
   blastResults.reserve( nGenomes - 1 );
@@ -49,7 +67,7 @@ BlastData::BlastData(
     {
       subject =  genomeData.getGenomeRefAtIdx( j );
       std::string tsv =
-        blastFasta( query, subject, blastDbs[j], outDir );
+        blastFasta( query, subject, blastDbs[j], tsvDir );
       blastResults[i].parseBlastData( tsv, query, subject );
     }
   }

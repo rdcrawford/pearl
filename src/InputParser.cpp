@@ -89,19 +89,19 @@ InputParser::InputParser ( int argc, char *argv[] )
 
 void InputParser::printOptions()
 {
-  cout << endl << "Required arguments:" << endl <<
-     // fastaDir
-     "  --fastaDir  Directory containing fasta files to compare"  << endl <<
-     endl << "Optional arguments:" << endl
-     << "  --minIdent Minimium identity to collapse alignment to "
-     << "(range 0-100) Defaults to 99%" << endl
-     << "  --outDir   Directory to write files."
-     << "defaults to current working directory"  << endl
-     << "  --fastaExt Extension for the fasta files. Defaults to .fasta" << endl
-     << "  --runId    String to prepend to the output files"  << endl
-     << "  --minLen   Minimium length of the alignments to keep. Defaults to "
-     << "500 nts."
-     << endl << endl;
+  cout << endl << "Required arguments:" << endl
+       << "  --fastaDir Directory containing fasta files to compare"  << endl
+       << endl << "Optional arguments:" << endl
+       << "  --minIdent Minimium identity to collapse alignment to "
+       << "(range 0-100) Defaults to 99%" << endl
+       << "  --outDir   Directory to write files."
+       << "defaults to current working directory"  << endl
+       << "  --fastaExt Extension for the fasta files. Defaults to .fasta"
+       << endl
+       << "  --runId    String to prepend to the output files"  << endl
+       << "  --minLen   Minimium length of the alignments to keep. Defaults to "
+       << "500 nts."
+       << endl << endl;
 }
 
 void InputParser::printArgs()
