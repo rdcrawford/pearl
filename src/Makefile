@@ -6,7 +6,7 @@ src :=  BlastAlignment.cpp  BlastData.cpp  BlastResults.cpp  InputParser.cpp \
 objects:= $(addsuffix .o, $(basename $(notdir $(src))))
 
 libs = -lstdc++fs
-cxx := g++-8
+cxx := g++
 flags = -Wall -std=c++17
 
 # compile object files:

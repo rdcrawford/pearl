@@ -72,7 +72,7 @@ InputParser::InputParser ( int argc, char *argv[] )
     if ( outDir.back() != '/' ) outDir = outDir + '/';
   }
 
-  if ( !getOption( "--runId", outDir ) )
+  if ( !getOption( "--runId", runId ) )
   {
     runId = "";
   }
@@ -93,12 +93,12 @@ void InputParser::printOptions()
      // fastaDir
      "  --fastaDir  Directory containing fasta files to compare"  << endl <<
      endl << "Optional arguments:" << endl
-     << "  --minIdent Minimium identity to collapse alignment to"
+     << "  --minIdent Minimium identity to collapse alignment to "
      << "(range 0-100) Defaults to 99%" << endl
      << "  --outDir   Directory to write files."
      << "defaults to current working directory"  << endl
      << "  --fastaExt Extension for the fasta files. Defaults to .fasta" << endl
-     << "  --runId    String to prepend to the output files"
+     << "  --runId    String to prepend to the output files"  << endl
      << "  --minLen   Minimium length of the alignments to keep. Defaults to "
      << "500 nts."
      << endl << endl;
