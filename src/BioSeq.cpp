@@ -204,13 +204,13 @@ bool BioSeq::getSeqAtCoord(
 }
 
 bool BioSeq::getSeqAtCoord(
-  const std::string contigName, const unsigned int startPos,
+  const std::string &seqName, const unsigned int startPos,
     const unsigned int endPos, std::string &seq
   ) const
 {
   // Look up the name of the contig
   unsigned int seqIdx;
-  if ( !getSeqIndex( contigName, seqIdx ) ) return false;
+  if ( !getSeqIndex( seqName, seqIdx ) ) return false;
 
   // Check that the requested direction is correct
   if ( startPos >= endPos ) return false;

@@ -14,7 +14,7 @@
 // -----------------------------------------------------------------------------
 // This class stores "BlastAlignment" class objects in  a vector. The
 // blast results in custom output format 6 are parsed and stored in the
-// vector.
+// vector. 
 // -----------------------------------------------------------------------------
 
 #ifndef _BLAST_RESULTS_

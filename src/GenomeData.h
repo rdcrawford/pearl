@@ -12,7 +12,7 @@
 // genomes.The data for the parsed genomes is stored in a vector. Additional
 // functionality is included for gore the genomes by size and number of contgs
 // where the genomes with the fewest contigs and then largest size are
-// positioned first in the vector. 
+// positioned first in the vector.
 // -----------------------------------------------------------------------------
 
 #ifndef _GENOME_DATA_
@@ -21,7 +21,7 @@ class GenomeData
 {
 public:
 
-  //
+  // Ctor: Takes the paths to the fasta files and the id's for each genome 
   GenomeData( const std::vector< std::string > &faPaths,
     const std::vector< std::string > &genomeIds );
 

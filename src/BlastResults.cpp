@@ -1,7 +1,7 @@
 #include "BlastResults.h"
 
 // -----------------------------------------------------------------------------
-// Blast Data
+// BlastData
 // Ryan D. Crawford
 // 2020/01/13
 // -----------------------------------------------------------------------------
@@ -80,7 +80,7 @@ void BlastResults::sortBlastResults()
 
 bool BlastResults::collapseNestedAligns()
 {
-  std::cout << "collapseNestedAligns: "<< minLen << "nts only!" << std::endl
+  std::cout << "collapseNestedAligns: " << std::endl
             << "  -- Begining: " << alignments.size() << std::endl;
 
   // If there are no alignments, or there is only one alignment, return false.
@@ -91,18 +91,19 @@ bool BlastResults::collapseNestedAligns()
   auto rIt = alignments.begin();
   auto qIt = rIt + 1;
 
+  // This loop finds if alignmens share the same sequence in the query.
+  // First, find if one alignment is completely within another alignment.
+  // If they are nested, check the the sequence of the subject. If is NOT
+  // If the sequence in this subject is not already represented in this
+  // alignment, add it to the current alignment
   do
   {
-    // Find if these alignments have overlapping positions in the query
+    // Find if the postions of these alignments are completely overlapping
     if ( checkIsNested( *rIt, *qIt ) )
     {
-      // This loop is entered if there are overlapping positions in this
-      // query. Now we need to handle the subject. This alignment may be
+      // Now we need to handle the subject. This alignment may be
       // within another alignment already present in a subject in this
       // blast alignment class object.
-      // Find this subject is NOT already represented by a better alignment.
-      // If the sequence in this subject is not already represented in
-      // this alignment, add it to the current alignment
       if ( !rIt->findSubj( *qIt ) ) *rIt + *qIt;
 
       // Delete the query alignment

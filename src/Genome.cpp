@@ -10,13 +10,13 @@
 
 bool operator<( const Genome &lhs, const Genome &rhs )
 {
-  if ( lhs.nSeqs() != rhs.nSeqs() ) return lhs.nSeqs() < rhs.nSeqs();
+  if ( lhs.nSeqs() != rhs.nSeqs() ) return lhs.nSeqs() > rhs.nSeqs();
   return lhs.getGenomeSize() < rhs.getGenomeSize();
 }
 
 bool operator>( const Genome &lhs, const Genome &rhs )
 {
-  if ( lhs.nSeqs() != rhs.nSeqs() ) return lhs.nSeqs() > rhs.nSeqs();
+  if ( lhs.nSeqs() != rhs.nSeqs() ) return lhs.nSeqs() < rhs.nSeqs();
   return lhs.getGenomeSize() > rhs.getGenomeSize();
 }
 

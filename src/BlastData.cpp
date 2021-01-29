@@ -20,9 +20,9 @@ bool operator >>( BlastResults &blastResults, BlastAlignment &algn );
 
 BlastData::BlastData(
   const GenomeData &genomeData,
-  const std::string &outDir,
-  const double &minIdent,
-  const unsigned int minLen
+  const            std::string &outDir,
+  const            double &minIdent,
+  const unsigned   int minLen
   )
 {
   // Get the number of genomes in this dataset
@@ -138,7 +138,7 @@ void BlastData::findUniqueAligns( const std::string &outFile )
             << "  -- End: " << uniqueAlgns.nAligns() << std::endl;
 
   // Write a fasta file for these sequences
-  uniqueAlgns.writeAlgnSeqs( outFile + "_seqs.fasta" );
+  uniqueAlgns.writeAlgnSeqs( outFile + "seqs.fasta" );
 }
 
 // -----------------------------------------------------------------------------

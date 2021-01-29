@@ -3,18 +3,24 @@
 #include "GenomeData.h"
 
 // -----------------------------------------------------------------------------
-//
+// Pearl
 // Ryan D. Crawford
 // 2020/01/15
 // -----------------------------------------------------------------------------
-//
+// This program provides functions to perform blasting of sequences against
+// each other. First, the genomic data is parsed and sorted so that that
+// genomes of highest quality are handled first. Genomes are then blasted
+// against each other. For each query genome, alignments nested within the
+// same locus are collapsed for that genome. Finally, the unique alignments
+// are identified between all genomes (ie the same sequence is shared by
+// more than two genomes). The fasta file with the identified unique sequences
+// is then written for down stream analysis.
 // -----------------------------------------------------------------------------
 
 // ---- Main function ----------------------------------------------------------
 
 int main( int argc, char *argv[] )
 {
-
   // Parse the command line arguments and print the inputs
   InputParser inputs( argc, argv );
   inputs.printArgs();

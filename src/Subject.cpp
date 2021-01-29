@@ -20,14 +20,13 @@ bool operator<( const Subject & lhs, const Subject & rhs )
   return lhs.qStart < rhs.qStart;
 }
 
-
 // ---- Subject member functions -----------------------------------------------
 
 void Subject::printSubj()
 {
-  std::cout << "     -- " <<  genome->getGenomeName() << ": "<< sSeqId
-            << "; Position: "<< qStart << "-" << qEnd
-            << "; Lenght: "<< length << " nts"
+  std::cout << "     -- "     << genome->getGenomeName() << ": "<< sSeqId
+            << "; Position: " << qStart << "-" << qEnd
+            << "; Lenght: "   << length << " nts"
             << "; Identity: " << pIdent << "%" << std::endl;
 }
 

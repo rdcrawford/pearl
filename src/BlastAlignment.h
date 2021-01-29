@@ -13,7 +13,8 @@
 // -----------------------------------------------------------------------------
 // This struct stores the data for a blast alignment. Inclued are the positions
 // of this alignment in the query, a pointer the the genome from which the
-// alignment originates. The subjects contained within this alignment are
+// alignment originates, and any subjects that fall within the original
+// alignment. The subjects contained within this alignment are
 // stored in a vector. Subjects may not contain the entire sequce of this
 // alignment
 // -----------------------------------------------------------------------------

@@ -65,14 +65,14 @@ public:
   // Create a vector with the names of the contigs including the fasta headers
   std::vector< std::string > getSeqNames();
 
-  // This function get the substring corresponding to the input parameters
-  // the "seq" variable is passed by reference and updated if the parameters
-  // are valid. If the parameters are valid and "seq" was sucess updated
-  // returns true
+  // This function get the substrinconvertToUper();g corresponding to the input
+  // parameters the "seq" variable is passed by reference and updated if the
+  // parameters are valid. If the parameters are valid and "seq" was sucess
+  // updated returns true
   bool getSeqAtCoord( const unsigned int seqIdx, const unsigned int startPos,
     const unsigned int endPos, std::string &seq ) const;
 
-  bool getSeqAtCoord( const std::string contigName, const unsigned int startPos,
+  bool getSeqAtCoord( const std::string &seqName, const unsigned int startPos,
     const unsigned int endPos, std::string &seq ) const;
 
   // Return the fasta file for these sequences
