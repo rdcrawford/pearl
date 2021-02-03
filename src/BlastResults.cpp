@@ -113,12 +113,13 @@ bool BlastResults::collapseNestedAligns()
         *rIt + *qIt;
       } else {
 
+        // Get the next list element
         auto temp = std::next( qIt, 1 );
-
 
         // Delete the query alignment
         alignments.erase( qIt );
 
+        // Assign the query to the next alignment  
         qIt = temp;
       }
     }
