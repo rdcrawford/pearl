@@ -89,7 +89,7 @@ bool BlastResults::collapseNestedAligns()
   // Start the iterators in the
   auto rIt = alignments.begin();
   // auto qIt = rIt + 1;
-  auto qIt = std::next( rIt, 1 ); // rIt + 1;
+  auto qIt = std::next( alignments.begin(), 1 );
 
   // This loop finds if alignmens share the same sequence in the query.
   // First, find if one alignment is completely within another alignment.
@@ -98,16 +98,29 @@ bool BlastResults::collapseNestedAligns()
   // alignment, add it to the current alignment
   do
   {
+    int r = std::distance( alignments.begin(), rIt );
+    int q = std::distance( alignments.begin(), qIt );
+    std::cout << "rIt: " << r << " qIt: " << q << std::endl;
+
     // Find if the postions of these alignments are completely overlapping
     if ( checkIsNested( *rIt, *qIt ) )
     {
       // Now we need to handle the subject. This alignment may be
       // within another alignment already present in a subject in this
       // blast alignment class object.
-      if ( !rIt->findSubj( *qIt ) ) *rIt + *qIt;
+      if ( !rIt->findSubj( *qIt ) )
+      {
+        *rIt + *qIt;
+      } else {
 
-      // Delete the query alignment
-      alignments.erase( qIt );
+        auto temp = std::next( qIt, 1 );
+
+
+        // Delete the query alignment
+        alignments.erase( qIt );
+
+        qIt = temp;
+      }
     }
     else // If not nested, go to the next alignment
     {
@@ -120,7 +133,7 @@ bool BlastResults::collapseNestedAligns()
     {
       if ( rIt != alignments.end() )
       {
-        rIt++;
+        advance( rIt, 1 );
         qIt = std::next( rIt, 1 ); // rIt + 1;
       }
     }

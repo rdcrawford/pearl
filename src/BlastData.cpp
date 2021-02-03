@@ -112,7 +112,7 @@ std::string BlastData::madeBlastDb(
   // Make the blast database
   std::string cmd =
     "makeblastdb -dbtype nucl -in " + genome->getFasta() + " -out " + dbPath;
-  system( cmd.c_str() );
+  // system( cmd.c_str() );
 
   return dbPath;
 }
