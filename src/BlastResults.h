@@ -4,7 +4,7 @@
 #include <fstream>
 #include <sstream>
 #include <string>
-#include <vector>
+#include <list>
 #include <string>
 
 // -----------------------------------------------------------------------------
@@ -14,7 +14,7 @@
 // -----------------------------------------------------------------------------
 // This class stores "BlastAlignment" class objects in  a vector. The
 // blast results in custom output format 6 are parsed and stored in the
-// vector. 
+// vector.
 // -----------------------------------------------------------------------------
 
 #ifndef _BLAST_RESULTS_
@@ -69,10 +69,10 @@ public:
 private:
 
   // Vector with each individual
-  std::vector< BlastAlignment > alignments;
+  std::list< BlastAlignment > alignments;
 
   // Iterator to keep track of the current alignment
-  std::vector< BlastAlignment >::iterator it = alignments.begin();
+  std::list< BlastAlignment >::iterator it = alignments.begin();
 
   // Minimium identity threshold to keep the alignment
   double minIdent;

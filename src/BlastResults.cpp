@@ -20,7 +20,7 @@ bool operator==( const Subject & lhs, const Subject & rhs );
 bool operator>>( BlastResults &blastResults, BlastAlignment &algn )
 {
   // If the end of the alignments has been reached, return false and dont update
-  if ( blastResults.it >= blastResults.alignments.end() )
+  if ( blastResults.it == blastResults.alignments.end() )
   {
     // Reset the position of the iterator, for the next comparison
     blastResults.it = blastResults.alignments.begin();
@@ -40,6 +40,7 @@ BlastResults::BlastResults( const BlastResults &rhs )
   alignments = rhs.alignments;
   minIdent   = rhs.minIdent;
   minLen     = rhs.minLen;
+
   // Set the iterator to the beginning of the alignments
   it = alignments.begin();
 }
@@ -72,9 +73,7 @@ bool BlastResults::parseBlastData(
 
 void BlastResults::sortBlastResults()
 {
-  sort(
-    alignments.begin(), alignments.end(), std::greater< BlastAlignment >()
-    );
+  alignments.sort( std::greater< BlastAlignment >() );
   it = alignments.begin();
 }
 
@@ -89,7 +88,8 @@ bool BlastResults::collapseNestedAligns()
 
   // Start the iterators in the
   auto rIt = alignments.begin();
-  auto qIt = rIt + 1;
+  // auto qIt = rIt + 1;
+  auto qIt = std::next( rIt, 1 ); // rIt + 1;
 
   // This loop finds if alignmens share the same sequence in the query.
   // First, find if one alignment is completely within another alignment.
@@ -116,19 +116,19 @@ bool BlastResults::collapseNestedAligns()
 
     // If the query is at the end of the vector, update the iterators
     // corresponding to the query and reference
-    if ( qIt >= alignments.end() )
+    if ( qIt == alignments.end() )
     {
       if ( rIt != alignments.end() )
       {
         rIt++;
-        qIt = rIt + 1;
+        qIt = std::next( rIt, 1 ); // rIt + 1;
       }
     }
   } while ( rIt != alignments.end() && rIt->length >= minLen );
 
   if ( rIt != alignments.end() ) alignments.erase( rIt, alignments.end() );
 
-  alignments.shrink_to_fit();
+  // alignments.shrink_to_fit();
   this->it = alignments.begin();
   std::cout << "  -- End: " << alignments.size() << std::endl;
   return true;

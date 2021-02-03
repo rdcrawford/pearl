@@ -72,6 +72,7 @@ public:
   bool getSeqAtCoord( const unsigned int seqIdx, const unsigned int startPos,
     const unsigned int endPos, std::string &seq ) const;
 
+
   bool getSeqAtCoord( const std::string &seqName, const unsigned int startPos,
     const unsigned int endPos, std::string &seq ) const;
 
