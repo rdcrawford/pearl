@@ -56,6 +56,7 @@ BlastData::BlastData(
   const Genome* subject;
   for ( unsigned int i = 0; i < nGenomes - 1; i ++ )
   {
+    std::cout << i <<
     // Create a "blast results" class object and add it to the vector
     blastResults.push_back( BlastResults( minIdent, minLen ) );
 
@@ -112,7 +113,7 @@ std::string BlastData::madeBlastDb(
   // Make the blast database
   std::string cmd =
     "makeblastdb -dbtype nucl -in " + genome->getFasta() + " -out " + dbPath;
-  // system( cmd.c_str() );
+  system( cmd.c_str() );
 
   return dbPath;
 }

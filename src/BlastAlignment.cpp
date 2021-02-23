@@ -80,6 +80,11 @@ BlastAlignment::BlastAlignment(
   ss >> length;
   ss >> pIdnet;
 
+  qStart--;
+  qEnd--;
+  sStart--;
+  sEnd--;
+
   if ( sStart > sEnd )
   {
     auto temp = sEnd;
@@ -122,15 +127,21 @@ void BlastAlignment::printAlign()
 
 bool BlastAlignment::checkIsEquiv( const BlastAlignment &qry )
 {
+  // Initialize an iterator for the subjects in this alignment
   auto it = subjects.begin();
+
   while ( it != subjects.end() )
   {
+    // If this subject is a match for the input query
     if ( it->sSeqId == qry.qSeqId )
     {
+      // If the alignmen positions in this subject contain the query alignment
+      // positions perfectly, return the true
       if ( it->sStart <= qry.qStart && qry.qEnd <= it->sEnd ) return true;
     }
     it++;
   }
+  // If a perfect alignment was not found, return false
   return false;
   // If the subject was not found return false
   // if ( it == qry.subjects.end() ) return false;
