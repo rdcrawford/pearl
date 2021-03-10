@@ -6,22 +6,47 @@
 // 2020/01/13
 // -----------------------------------------------------------------------------
 
+// ---- Function prototypes ----------------------------------------------------
+
+bool operator==( const Subject & lhs, const Subject & rhs );
+
+bool operator<( const Subject & lhs, const Subject & rhs );
+
+bool operator>( const Subject & lhs, const Subject & rhs );
+
 // ---- Overload the operators -------------------------------------------------
 
 // Overload the > operator so we can sort blast alignments by position
 // in the fasta file
 bool operator<( const BlastAlignment &lhs, const BlastAlignment &rhs )
 {
-  return lhs.length < rhs.length;
+  // If this sequences are on different contigs, return which is less
+  // by comparing the two strings
+  if ( lhs.qSeqId != rhs.qSeqId ) return lhs.qSeqId < rhs.qSeqId;
+
+
+  // If these sequences are within each other, return which is smaller
+  if ( lhs.qStart == rhs.qStart ) return lhs.length < rhs.length;
+
+  // Return which alignmet is further left on the contig
+  return lhs.qStart < rhs.qStart;
 }
 
 // Overload the > operator so we can sort blast alignments by the length of
 // the alignment
 bool operator>( const BlastAlignment &lhs, const BlastAlignment &rhs )
 {
-  return lhs.length > rhs.length;
-}
+  // If this sequences are on different contigs, return which is less
+  // by comparing the two strings
+  if ( lhs.qSeqId != rhs.qSeqId ) return lhs.qSeqId > rhs.qSeqId;
 
+
+  // If these sequences are within each other, return which is smaller
+  if ( lhs.qStart == rhs.qStart ) return lhs.length > rhs.length;
+
+  // Return which alignmet is further left on the contig
+  return lhs.qStart > rhs.qStart;
+}
 // Overload the > operator so we can sort blast alignments by position
 // in the fasta file
 bool operator==( const BlastAlignment &lhs, const BlastAlignment &rhs )
@@ -54,9 +79,11 @@ void operator+( BlastAlignment &lhs, const BlastAlignment &rhs )
   lhs.subjects.insert(
     lhs.subjects.end(), rhs.subjects.begin(), rhs.subjects.end()
     );
-}
 
-bool operator==( const Subject & lhs, const Subject & rhs );
+  if ( rhs.qStart < lhs.qStart ) lhs.setStartPos( rhs.qStart );
+
+  if ( rhs.qEnd < lhs.qEnd ) lhs.setStartPos( rhs.qEnd );
+}
 
 // ---- Blast alignment member functions ---------------------------------------
 
@@ -125,8 +152,13 @@ void BlastAlignment::printAlign()
   std::cout << std::endl;
 }
 
-bool BlastAlignment::checkIsEquiv( const BlastAlignment &qry )
+bool BlastAlignment::checkIsEquiv( BlastAlignment &qry )
 {
+  // for ( int i = 0; i < 80; i++ ) std::cout << '=';
+  // std::cout << std::endl << " ---- Query: " << std::endl;
+  // qry.printAlign();
+  // std::cout << " ---- This: " << std::endl;
+  // this->printAlign();
   // Initialize an iterator for the subjects in this alignment
   auto it = subjects.begin();
 
@@ -137,20 +169,17 @@ bool BlastAlignment::checkIsEquiv( const BlastAlignment &qry )
     {
       // If the alignmen positions in this subject contain the query alignment
       // positions perfectly, return the true
-      if ( it->sStart <= qry.qStart && qry.qEnd <= it->sEnd ) return true;
+      if ( it->sStart <= qry.qStart && qry.qEnd <= it->sEnd )
+      {
+        // std::cout << " ------ Match! " << std::endl;
+        return true;
+      }
     }
     it++;
   }
+  // std::cout << " ------ No Match...." << std::endl;
   // If a perfect alignment was not found, return false
   return false;
-  // If the subject was not found return false
-  // if ( it == qry.subjects.end() ) return false;
-  // for ( auto it = qry.subjects.begin(); it != qry.subjects.end(); it++ )
-  // {
-  //   it = find( subjects.begin(), subjects.end(), *it );
-  //   if ( it == subjects.end() ) return false;
-  // }
-  // return true;
 }
 
 bool BlastAlignment::findSubj( const BlastAlignment &qry )
@@ -167,6 +196,42 @@ bool  BlastAlignment::getAlignSeq(
   seqId = query->getGenomeName() + ":" + qSeqId + ";" +
     std::to_string( qStart ) + "-" + std::to_string( qEnd );
   return query->getSeqAtCoord( qSeqId, qStart, qEnd, seq );
+}
+
+void BlastAlignment::setStartPos( const unsigned int newStart )
+{
+  // Set the query end position
+  this->qStart = newStart;
+
+  // Calculate the length of the alignment
+  calcLen();
+
+  // Reset the start positon in all of the subjects of this alignmente
+  // for ( auto & subj : this->subjects ) subj.setStartPos( newStart );
+}
+
+void BlastAlignment::setEndPos( const unsigned int newEnd )
+{
+  // Set the query end position
+  this->qEnd = newEnd;
+
+  // Calculate the length of the alignment
+  calcLen();
+
+  // Reset the start positon in all of the subjects of this alignment
+  // for ( auto & subj : this->subjects ) subj.setEndPos( newEnd );
+}
+
+void BlastAlignment::calcLen()
+{
+  this->length = this->qEnd - this->qStart + 1;
+}
+
+bool BlastAlignment::checkWithin( const BlastAlignment &qry )
+{
+  if ( qry.qStart < this->qStart ) return false;
+  if ( qry.qEnd > this->qEnd ) return false;
+  return true;
 }
 
 // -----------------------------------------------------------------------------

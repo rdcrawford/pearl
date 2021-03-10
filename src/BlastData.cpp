@@ -56,7 +56,6 @@ BlastData::BlastData(
   const Genome* subject;
   for ( unsigned int i = 0; i < nGenomes - 1; i ++ )
   {
-    std::cout << i <<
     // Create a "blast results" class object and add it to the vector
     blastResults.push_back( BlastResults( minIdent, minLen ) );
 
@@ -77,7 +76,7 @@ BlastData::BlastData(
   for ( auto &results : blastResults ) results.sortBlastResults();
 
   // Find all alignments that are perfectly within another alignment
-  for ( auto &results : blastResults ) results.collapseNestedAligns();
+  for ( auto &results : blastResults ) results.disentangleAlgns();
 
   // Set the pointers to null before they go out of scope
   query   = nullptr;
@@ -131,13 +130,18 @@ void BlastData::findUniqueAligns( const std::string &outFile )
   {
     while ( blastResults[i] >> algn )
     {
-      if ( !uniqueAlgns.find( algn ) ) uniqueAlgns.addAlignment( algn );
+      if ( !uniqueAlgns.find( algn ) )
+      {
+
+        uniqueAlgns.addAlignment( algn );
+      }
     }
   }
   uniqueAlgns.sortBlastResults();
   std::cout << "findUniqueAligns: " << std::endl
             << "  -- End: " << uniqueAlgns.nAligns() << std::endl;
 
+  while( uniqueAlgns >> algn ) algn.printAlign();
   // Write a fasta file for these sequences
   uniqueAlgns.writeAlgnSeqs( outFile + "seqs.fasta" );
 }

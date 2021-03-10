@@ -8,7 +8,7 @@
 #include <string>
 
 // -----------------------------------------------------------------------------
-// blastResults
+// Blast Results
 // Ryan D. Crawford
 // 2020/01/13
 // -----------------------------------------------------------------------------
@@ -19,7 +19,7 @@
 
 #ifndef _BLAST_RESULTS_
 #define _BLAST_RESULTS_
-class BlastResults
+class Sequence
 {
 public:
 
@@ -66,9 +66,6 @@ public:
   // Write a multi fasta file with the aligned sequeces
   bool writeAlgnSeqs( const std::string &outFile );
 
-
-  void disentangleAlgns();
-
 private:
 
   // Vector with each individual
@@ -84,28 +81,18 @@ private:
   unsigned int minLen;
 
   // Function to identify an alignment that is with another alignment
-  bool checkIsOverlap( const BlastAlignment &lhs, const BlastAlignment &rhs );
+  bool checkOverlap( const BlastAlignment &lhs, const BlastAlignment &rhs );
 
-  // This function first checks if the start position of the left alignment
-  // is
-  // Alignmets must be sorted prior to.
-  // This function returns true if the right hand alignment is still
-  // overlapping with the left alignment after the coordinates are updated.
-  bool splitAlign( std::list< BlastAlignment >::iterator &lhs,
-    std::list< BlastAlignment >::iterator &rhs );
+  // If there is overlapping sequence on the
+  bool splitAlgn();
 
-  int findAlgnSeqs( std::list< BlastAlignment >::iterator lhs,
-    std::list< BlastAlignment >::iterator rhs, int counter );
+  // An iterator to the blast alignments is passed by reference. The list
+  // element indicated by the iterator is deleted and the iterator is advanced
+  // to the next alignment.
+  bool eraseAlgn( std::list< BlastAlignment >::iterator &qIt );
 
-  bool eraseAlgn( std::list< BlastAlignment >::iterator &lhs );
-
-  bool getNextAlgn( std::list< BlastAlignment >::iterator &lhs );
-
-  bool compareAligns( std::list< BlastAlignment >::iterator &lhs,
-    std::list< BlastAlignment >::iterator &rhs );
-
-  void getNextRef( std::list< BlastAlignment >::iterator &lhs,
-    std::list< BlastAlignment >::iterator &rhs );
+  // Get the next alignment to be used as a reference.
+  bool getNextRef( std::list< BlastAlignment >::iterator &rIt );
 };
 #endif
 

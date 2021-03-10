@@ -31,6 +31,10 @@ struct BlastAlignment
   BlastAlignment( std::stringstream &ss, const Genome* qry,
     const Genome* subj );
 
+  // // Value Ctor: string stream containing a line in the blast output
+  // BlastAlignment( const Genome* query, std::string qSeqId, unsigned int qStart,
+  //   unsigned int qEnd );
+
   // Dtor
   ~BlastAlignment();
 
@@ -45,7 +49,10 @@ struct BlastAlignment
   unsigned int getAlgnLen();
 
   // Check if the input alignment is contained within this alignment
-  bool checkIsEquiv( const BlastAlignment &qry );
+  bool checkIsEquiv( BlastAlignment &qry );
+
+  // Check if the input alignment falls within the positions of this alignment
+  bool checkWithin( const BlastAlignment &qry );
 
   // Print the components of the blast alignment
   void printAlign();
@@ -58,6 +65,12 @@ struct BlastAlignment
   // for this query sequence. Returns true if the "seq" and "seqId"  variables
   // sucessfully updated.
   bool getAlignSeq( std::string &seqId, std::string &seq );
+
+  void setStartPos( const unsigned int newStart );
+
+  void setEndPos( const unsigned int newEnd );
+
+  void calcLen();
 };
 #endif
 

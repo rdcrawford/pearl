@@ -47,6 +47,12 @@ std::vector< std::string > GenomeData::getGenomeIds()
 void GenomeData::sortGenomes()
 {
   sort( genomeData.begin(), genomeData.end(), std::greater< Genome >() );
+
+  for ( auto &g : genomeData )
+  {
+    std::cout << "Genome: " << g.getGenomeName()
+              << " " << g.getGenomeSize() << " nts" << std::endl;
+  }
 }
 
 // Return the gene ids for all of the input genomes

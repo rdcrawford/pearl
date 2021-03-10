@@ -34,6 +34,12 @@ struct Subject
   const Genome* genome; // Pointer to the genome of the subject
 
   void printSubj();
+
+  void setStartPos( const unsigned int newStart );
+
+  void setEndPos( const unsigned int newEnd );
+
+  void calcLen();
 };
 #endif
 
